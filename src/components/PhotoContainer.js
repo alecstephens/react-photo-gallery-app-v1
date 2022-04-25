@@ -4,10 +4,10 @@ import NotFound from './NotFound';
 class PhotoContainer extends Component {
 
   componentDidUpdate(prevState) {
-    let { query, querySearch } = this.props;
-    if (querySearch) {
+    let { query, performSearch } = this.props;
+    if (performSearch) {
       if (query !== prevState.query)
-        querySearch(query);
+        performSearch(query);
     }
   }
 

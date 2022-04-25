@@ -10,7 +10,6 @@ import apiKey from '../config';
 // Components
 import Nav from './Nav';
 import PhotoContainer from './PhotoContainer';
-import NotFound from './NotFound';
 import SearchForm from './SearchForm';
 
 //Flickr Api
@@ -58,6 +57,7 @@ class App extends Component {
           this.setState({
             photos: response.data.photos.photo,
             loading: false,
+            query: query
           });
         }
       })
@@ -70,14 +70,14 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="container">
-          <h1>Phtoto Gallery that uses Flickr and React.js</h1>
+          <h1>Photo Gallery that uses Flickr and React.js</h1>
           <SearchForm onSearch={this.performSearch} />
           <Nav />
           <Switch>
-            <Route path="/sun" render={() => <PhotoContainer photos={this.state.sun} isLoading={this.state.isLoading} />} />
-            <Route path="/moon" render={() => <PhotoContainer photos={this.state.moon} isLoading={this.state.isLoading} />} />
-            <Route path="/clouds" render={() => <PhotoContainer photos={this.state.clouds} isLoading={this.state.isLoading} />} />
-            <Route component={NotFound} />
+            <Route path='/search/:query' render={({ match }) => <PhotoContainer performSearch={this.performSearch} query={match.params.query} loading={this.state.loading} photos={this.state.photos} />} />
+            <Route path="/sun" render={() => <PhotoContainer loading={this.state.loading}  photos={this.state.sun} />} />
+            <Route path="/moon" render={() => <PhotoContainer loading={this.state.loading} photos={this.state.moon} />} />
+            <Route path="/clouds" render={() => <PhotoContainer loading={this.state.loading} photos={this.state.clouds} />} />
           </Switch>
         </div>
       </BrowserRouter>
